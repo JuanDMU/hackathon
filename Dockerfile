@@ -20,6 +20,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Habilitar mod_rewrite (para rutas amigables de Laravel)
 RUN a2enmod rewrite
 
+# Cambiar DocumentRoot a /var/www/html/public (carpeta pública de Laravel)
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
 # Establecer directorio de trabajo
 WORKDIR /var/www/html
 
