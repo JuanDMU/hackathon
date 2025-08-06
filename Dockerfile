@@ -23,6 +23,9 @@ RUN a2enmod rewrite
 # Cambiar DocumentRoot a /var/www/html/public (carpeta pública de Laravel)
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
+# Agregar ServerName para quitar warning de Apache
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Establecer directorio de trabajo
 WORKDIR /var/www/html
 
@@ -44,8 +47,6 @@ RUN php artisan config:cache && php artisan route:cache && php artisan view:cach
 
 # Exponer puerto 80 para HTTP
 EXPOSE 80
-
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Comando para arrancar Apache en primer plano
 CMD ["apache2-foreground"]
